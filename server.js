@@ -38,8 +38,6 @@ dbConfig.connect(err => {
       throw err;
     }
   });
-}
-
 handleDisconnect();
 //
 
