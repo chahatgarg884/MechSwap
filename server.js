@@ -21,6 +21,7 @@ const dbConfig = {
     queueLimit: 0 //
 };
 const dbCon = mysql.createConnection(dbConfig);
+function handleDisconnect() {
 //-test
 dbCon.connect(err => {
     if (err) {
@@ -38,6 +39,7 @@ dbCon.connect(err => {
       throw err;
     }
   });
+}
 handleDisconnect();
 //
 
