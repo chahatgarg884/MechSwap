@@ -20,9 +20,9 @@ const dbConfig = {
     connectionLimit: 10, // Adjust as needed
     queueLimit: 0 //
 };
-
+const dbCon = mysql.createConnection(dbConfig);
 //-test
-dbConfig.connect(err => {
+dbCon.connect(err => {
     if (err) {
       console.error('Error connecting:', err);
       setTimeout(handleDisconnect, 2000); // Try reconnecting after 2 seconds
@@ -30,7 +30,7 @@ dbConfig.connect(err => {
   });
 
 //-test
-  dbConfig.on('error', err => {
+  dbCon.on('error', err => {
     console.error('Database error:', err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect(); // Reconnect if the connection is lost
@@ -41,7 +41,7 @@ dbConfig.connect(err => {
 handleDisconnect();
 //
 
-const dbCon = mysql.createConnection(dbConfig);
+
 dbCon.connect(function (err) {
     if (err) {
         console.error("Error connecting to database:", err);
