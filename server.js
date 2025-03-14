@@ -15,8 +15,33 @@ const dbConfig = {
     port: 3306,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    dateStrings: true
+    dateStrings: true,
+    waitForConnections: true,//
+    connectionLimit: 10, // Adjust as needed
+    queueLimit: 0 //
 };
+
+//-test
+dbConfig.connect(err => {
+    if (err) {
+      console.error('Error connecting:', err);
+      setTimeout(handleDisconnect, 2000); // Try reconnecting after 2 seconds
+    }
+  });
+
+//-test
+  dbConfig.on('error', err => {
+    console.error('Database error:', err);
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      handleDisconnect(); // Reconnect if the connection is lost
+    } else {
+      throw err;
+    }
+  });
+}
+
+handleDisconnect();
+//
 
 const dbCon = mysql.createConnection(dbConfig);
 dbCon.connect(function (err) {
